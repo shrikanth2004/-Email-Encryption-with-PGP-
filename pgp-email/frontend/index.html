@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Encryption with PGP</title>
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>🔐 Email Encryption with PGP</h2>
+    
+    <textarea id="message" placeholder="Enter your message..."></textarea>
+    <button onclick="encryptMessage()">Encrypt</button>
+
+    <textarea id="encrypted" placeholder="Encrypted message will appear here..."></textarea>
+    <button onclick="decryptMessage()">Decrypt</button>
+
+    <textarea id="decrypted" placeholder="Decrypted message will appear here..."></textarea>
+  </div>
+
+  <script>
+    async function encryptMessage() {
+      let msg = document.getElementById("message").value;
+      let res = await fetch("/encrypt", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: msg})
+      });
+      let data = await res.json();
+      document.getElementById("encrypted").value = data.encrypted;
+    }
+
+    async function decryptMessage() {
+      let encrypted = document.getElementById("encrypted").value;
+      let res = await fetch("/decrypt", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({encrypted: encrypted})
+      });
+      let data = await res.json();
+      document.getElementById("decrypted").value = data.decrypted;
+    }
+  </script>
+</body>
+</html>
