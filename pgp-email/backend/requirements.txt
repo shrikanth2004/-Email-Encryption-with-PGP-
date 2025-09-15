@@ -1,0 +1,6 @@
+flask
+flask-cors
+pycryptodome
+werkzeug
+pgpy
+python-gnupg
